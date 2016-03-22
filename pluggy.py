@@ -375,7 +375,10 @@ class PluginManager(object):
 
     def parse_hookimpl_opts(self, plugin, name):
         method = getattr(plugin, name)
-        res = getattr(method, self.project_name + "_impl", None)
+        try:
+            res = getattr(method, self.project_name + "_impl", None)
+        except Exception:
+            res = {}
         if res is not None and not isinstance(res, dict):
             # false positive
             res = None
@@ -455,6 +458,10 @@ class PluginManager(object):
     def get_plugin(self, name):
         """ Return a plugin or None for the given name. """
         return self._name2plugin.get(name)
+
+    def has_plugin(self, name):
+        """ Return True if a plugin with the given name is registered. """
+        return self.get_plugin(name) is not None
 
     def get_name(self, plugin):
         """ Return name for registered plugin or None if not registered. """
@@ -640,7 +647,10 @@ def varnames(func, startindex=None):
         startindex = 1
     else:
         if not inspect.isfunction(func) and not inspect.ismethod(func):
-            func = getattr(func, '__call__', func)
+            try:
+                func = getattr(func, '__call__', func)
+            except Exception:
+                return ()
         if startindex is None:
             startindex = int(inspect.ismethod(func))
 
