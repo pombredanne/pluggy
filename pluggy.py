@@ -67,7 +67,7 @@ Pluggy currently consists of functionality for:
 import sys
 import inspect
 
-__version__ = '0.3.2'
+__version__ = '0.4.0'
 
 __all__ = ["PluginManager", "PluginValidationError", "HookCallError",
            "HookspecMarker", "HookimplMarker"]
@@ -309,7 +309,7 @@ class PluginManager(object):
     """ Core Pluginmanager class which manages registration
     of plugin objects and 1:N hook calling.
 
-    You can register new hooks by calling ``addhooks(module_or_class)``.
+    You can register new hooks by calling ``add_hookspec(module_or_class)``.
     You can register plugin objects (which contain hooks) by calling
     ``register(plugin)``.  The Pluginmanager is initialized with a
     prefix that is searched for in the names of the dict of registered
